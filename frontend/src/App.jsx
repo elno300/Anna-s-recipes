@@ -1,6 +1,7 @@
 import "./index.css";
 import RecipeForm from "./components/RecipeForm";
 import { useEffect } from 'react'
+import Card from "./components/Card";
 
 
 function App() {
@@ -9,15 +10,17 @@ function App() {
     fetch('/api')
       .then((response) => response.json())
       .then((result) => {
-        alert(`Hello ${result.hello}!`)
+        console.log(result)
+        // alert(`Hello ${result[0].name}!`)
+
       })
   }, [])
 
 
   return (
     <>
-      <div className="bg-blue-500 text-white p-4">
-        <h1 className="text-3xl font-bold font-avenir">Hej, Tailwind CSS!</h1>
+      <div className="bg-red-300 text-white p-4">
+        <h1 className="text-3xl font-bold font-avenir">Annas Recept</h1>
         <p className="font-avenir font-normal">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea deleniti
           aperiam et repudiandae architecto facilis consequuntur illum vel
@@ -27,6 +30,7 @@ function App() {
       </div>
       {/* onSubmit={handleSubmit} */}
       <RecipeForm />
+      <Card/>
     </>
   );
 }
