@@ -12,7 +12,7 @@ function App() {
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
-        // alert(`Hello ${result[0].name}!`)
+        alert(`Hello ${result[0].name}!`)
 
       })
   }, [])

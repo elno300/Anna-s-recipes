@@ -21,15 +21,22 @@ const RecipeList = () => {
         setLoading(false);
       }
     };
-
-    
-
   //   fetch('/api/recipes')
   // .then((response) => response.text())
   // .then((data) => console.log(data));
 
     fetchRecipes();
   }, []);
+
+  useEffect(() => {
+    fetch('/api/recipes')
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        // alert(`Hello ${result[0].name}!`)
+
+      })
+  }, [])
 
   if (loading) return <p>Laddar...</p>;
   if (error) return <p>{error}</p>;
