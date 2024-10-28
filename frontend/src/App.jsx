@@ -1,23 +1,36 @@
 import "./index.css";
 import RecipeForm from "./components/RecipeForm";
-import { useEffect } from 'react'
-import RecipeCard from "./components/RecipeCard";
+// import { useEffect } from 'react'
+// import RecipeCard from "./components/RecipeCard";
 // import RecipeList from "./components/RecipeList";
 
 
 function App() {
 
-  useEffect(() => {
-    fetch('/api')
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result)
-        alert(`Hello ${result[0].name}!`)
+  // useEffect(() => {
+  //   fetch('/api')
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       console.log(result)
+  //       alert(`Hello ${result[0].name}!`)
 
-      })
-  console.log('Händer detta ens??? :>> ä')
-  }, [])
+  //     })
+  // console.log('Händer detta ens??? :>> ä')
+  // }, [])
 
+  const fetchRecipes = async () => {
+    try {
+      const response = await fetch('/api/recipes'); // Relativ URL för att dra nytta av proxyn
+      console.log('response :>> ', response);
+      if (!response.ok) throw new Error('Failed to fetch');
+      const data = await response.json();
+      console.log(data); // Bekräfta att datan loggas korrekt
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+    }
+  };
+
+  fetchRecipes();
   // useEffect(() => {
   //   fetch('/api/recipes')
   //     .then((response) => response.json())
@@ -42,7 +55,7 @@ function App() {
       </div>
       {/* onSubmit={handleSubmit} */}
       <RecipeForm />
-      <RecipeCard/>
+      {/* <RecipeCard/> */}
     </>
   );
 }
