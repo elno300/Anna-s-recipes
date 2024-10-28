@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button"
 
 import styled from 'styled-components';
+import { useEffect } from "react";
 
 const ImageContainer = styled.div`
     position: relative;
@@ -30,6 +31,15 @@ const RecipeImage = styled.img`
 
 function RecipeCard() {
   console.log(image1);
+  useEffect(() => {
+    fetch('/api/recipes')
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        // alert(`Hello ${result[0].name}!`)
+
+      })
+  }, [])
 
   return (
     <>
