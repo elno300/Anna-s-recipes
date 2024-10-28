@@ -2,7 +2,7 @@ import "./index.css";
 import RecipeForm from "./components/RecipeForm";
 import { useEffect } from 'react'
 import RecipeCard from "./components/RecipeCard";
-import RecipeList from "./components/RecipeList";
+// import RecipeList from "./components/RecipeList";
 
 
 function App() {
@@ -15,13 +15,14 @@ function App() {
         alert(`Hello ${result[0].name}!`)
 
       })
+  console.log('Händer detta ens??? :>> ä')
   }, [])
 
   // useEffect(() => {
   //   fetch('/api/recipes')
   //     .then((response) => response.json())
   //     .then((result) => {
-  //       console.log(result)
+  //       console.log(result, 'från api/recipes')
   //       // alert(`Hello ${result[0].name}!`)
 
   //     })
@@ -42,7 +43,6 @@ function App() {
       {/* onSubmit={handleSubmit} */}
       <RecipeForm />
       <RecipeCard/>
-      <RecipeList/>
     </>
   );
 }

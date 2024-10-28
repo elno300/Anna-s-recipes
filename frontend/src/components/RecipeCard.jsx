@@ -3,14 +3,13 @@ import {
   Card,
   CardContent,
   CardDescription,
-  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button"
 
 import styled from 'styled-components';
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 const ImageContainer = styled.div`
     position: relative;
@@ -30,16 +29,18 @@ const RecipeImage = styled.img`
 `;
 
 function RecipeCard() {
-  console.log(image1);
-  useEffect(() => {
-    fetch('/api')
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result , 'fetch från recept kortet')
-        alert(`Hello ${result[0].name}!`)
+  // const [recipes, setRecipes] = useState([]);
 
-      })
-  }, [])
+  // console.log(image1);
+  // useEffect(() => {
+  //   fetch('/api')
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       console.log(result , 'fetch från recept kortet')
+  //       alert(`Hello ${result[0].name}!`)
+
+  //     })
+  // }, [])
 
   return (
     <>
@@ -56,9 +57,6 @@ function RecipeCard() {
           <p>Antal portioner:</p>
           <p>Kategori:</p>
         </CardContent>
-        {/* <CardFooter>
-          <p>Kategori:</p>
-        </CardFooter> */}
         <Button/>
       </Card>
     </>
