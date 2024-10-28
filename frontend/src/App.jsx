@@ -1,49 +1,44 @@
 import "./index.css";
 import RecipeForm from "./components/RecipeForm";
 // import { useEffect } from 'react'
-// import RecipeCard from "./components/RecipeCard";
+import RecipeCard from "./components/RecipeCard";
+import { useEffect, useState } from "react";
 // import RecipeList from "./components/RecipeList";
-
+import { fetchRecipes } from "./api/recipesApi";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+const [recipes, setRecipes] = useState(null);
 
-  // useEffect(() => {
-  //   fetch('/api')
-  //     .then((response) => response.json())
-  //     .then((result) => {
-  //       console.log(result)
-  //       alert(`Hello ${result[0].name}!`)
+// useEffect(()=>{
+//     fetch('/api/recipes')
+//       .then((response) => response.json())
+//       .then((result) => {
+//         console.log(result, 'från api/recipes')
+//         setRecipes[result]
+//       })
 
-  //     })
-  // console.log('Händer detta ens??? :>> ä')
-  // }, [])
-
-  const fetchRecipes = async () => {
+// },[])
+useEffect(() => {
+  (async () => {
     try {
-      const response = await fetch('/api/recipes'); // Relativ URL för att dra nytta av proxyn
-      console.log('response :>> ', response);
-      if (!response.ok) throw new Error('Failed to fetch');
-      const data = await response.json();
-      console.log(data); // Bekräfta att datan loggas korrekt
-    } catch (error) {
-      console.error('Error fetching recipes:', error);
+      const data = await fetchRecipes(); // Hämta recepten från API
+      setRecipes(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-  };
+  })();
+}, []);
 
-  fetchRecipes();
-  // useEffect(() => {
-  //   fetch('/api/recipes')
-  //     .then((response) => response.json())
-  //     .then((result) => {
-  //       console.log(result, 'från api/recipes')
-  //       // alert(`Hello ${result[0].name}!`)
-
-  //     })
-  // }, [])
-
+if (loading) return <p>Laddar...</p>;
+if (error) return <p>{error}</p>;
 
   return (
     <>
+
       <div className="bg-red-300 text-white p-4">
         <h1 className="text-3xl font-bold font-avenir">Annas Recept</h1>
         <p className="font-avenir font-normal">
@@ -55,7 +50,10 @@ function App() {
       </div>
       {/* onSubmit={handleSubmit} */}
       <RecipeForm />
-      {/* <RecipeCard/> */}
+      {recipes && (recipes.map((recipe) => (
+   <RecipeCard key={recipe.id} recipe={recipe}/>
+      ))) }
+
     </>
   );
 }

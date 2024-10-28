@@ -1,133 +1,166 @@
+import { useState } from "react";
+
 const RecipeForm = () => {
+  // State-variabler för varje inputfält
+  const [title, setTitle] = useState("");
+  const [cookTime, setCookTime] = useState("");
+  const [category, setCategory] = useState("");
+  const [servings, setServings] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const recipeData = {
+      name: title,
+      cook_time: cookTime,
+      description,
+      img_url: "image1", // För enkelhetens skull
+      servings,
+      course_id: category,
+    };
+
+    try {
+      const response = await fetch("/api/new-recipe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(recipeData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Kunde inte lägga till receptet");
+      }
+
+      const newRecipe = await response.json();
+      console.log("Nytt recept tillagt:", newRecipe);
+
+      // Rensa fält efter skickat formulär
+      setTitle("");
+      setCookTime("");
+      setCategory("");
+      setServings("");
+      setDescription("");
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
 
   return (
-    // <form className="w-full max-w-lg font-avenir">
-    <form className="max-w-lg font-avenir border border-gray-300 rounded-lg p-6 shadow-md">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-lg font-avenir border border-gray-300 rounded-lg p-6 shadow-md"
+    >
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full px-3">
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             htmlFor="grid-title"
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
           >
             Titel:
           </label>
           <input
-            className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 py-3 px-4 mb-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" // Här är mb-4
-            id="grid-title"
             type="text"
+            id="grid-title"
             placeholder="Spagetti med köttfärsås"
             required
+            className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 py-3 px-4 mb-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)} // Uppdaterar title state
           />
         </div>
       </div>
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/3 px-3">
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             htmlFor="grid-cook-time"
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
           >
             Tillagningstid:
           </label>
           <input
-            className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 py-3 px-4 mb-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" // Här är mb-4
-            id="grid-cook-time"
             type="text"
+            id="grid-cook-time"
             placeholder="60 min"
             required
+            className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 py-3 px-4 mb-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            value={cookTime}
+            onChange={(e) => setCookTime(e.target.value)} // Uppdaterar cookTime state
           />
         </div>
         <div className="w-full md:w-1/3 px-3">
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             htmlFor="grid-category"
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
           >
             Kategori:
           </label>
-          <div className="relative mb-4"> {/* Här är mb-4 */}
-            <select
-              className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-category"
-              required
-            >
-              <option value="" disabled>
-                Välj en kategori
-              </option>
-              <option value={1}>Dessert</option>
-              <option value={2}>Gryta</option>
-              <option value={3}>Gratäng</option>
-              <option value={4}>Pasta</option>
-              <option value={5}>Sallad</option>
-              <option value={6}>Soppa</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg
-                className="fill-current h-4 w-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
-            </div>
-          </div>
+          <select
+            id="grid-category"
+            required
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)} // Uppdaterar category state
+          >
+            <option value="" disabled>
+              Välj en kategori
+            </option>
+            <option value={1}>Dessert</option>
+            <option value={2}>Gryta</option>
+            <option value={3}>Gratäng</option>
+            <option value={4}>Pasta</option>
+            <option value={5}>Sallad</option>
+            <option value={6}>Soppa</option>
+          </select>
         </div>
         <div className="w-full md:w-1/3 px-3">
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             htmlFor="grid-servings"
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
           >
             Antal portioner:
           </label>
-          <div className="relative mb-4"> {/* Här är mb-4 */}
-            <select
-              className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="grid-servings"
-              required
-            >
-              <option value="" disabled>
-                Välj antal portioner
+          <select
+            id="grid-servings"
+            required
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            value={servings}
+            onChange={(e) => setServings(e.target.value)} // Uppdaterar servings state
+          >
+            <option value="" disabled>
+              Välj antal portioner
+            </option>
+            {[...Array(8)].map((_, i) => (
+              <option key={i} value={i + 1}>
+                {i + 1}
               </option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg
-                className="fill-current h-4 w-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
-            </div>
-          </div>
+            ))}
+          </select>
         </div>
       </div>
-      {/* Textarea för beskrivning */}
+
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full px-3">
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
             htmlFor="grid-description"
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
           >
             Beskrivning:
           </label>
           <textarea
-            className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 py-3 px-4 mb-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-32" // Här är mb-4
             id="grid-description"
             placeholder="Skriv en kort beskrivning av receptet här..."
             required
+            className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 py-3 px-4 mb-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-32"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)} // Uppdaterar description state
           />
         </div>
       </div>
+
       <div className="flex items-center justify-between">
         <button
-          className="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4"
           type="submit"
+          className="bg-red-400 hover:bg-red-700 text-white font-bold py-2 px-4"
         >
           Lägg till nytt recept
         </button>
