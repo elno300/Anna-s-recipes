@@ -1,4 +1,4 @@
-
+// import recipeRoutes from './recipeRoutes.js';
 
 const dotenv = require('dotenv'),
   { Client } = require('pg'),
@@ -34,10 +34,12 @@ app.get('/api', async (_request, response) => {
   response.send(rows)
 })
 
-//Behovs denna?
 app.use(express.static(path.join(path.resolve(), 'dist')))
+// app.use(recipeRoutes);
+
 
 const port = process.env.PORT || 3000;
+
 app.listen(port, () => {
   console.log(`Redo på http://localhost:${port}`)
 })

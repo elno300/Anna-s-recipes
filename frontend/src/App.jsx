@@ -1,13 +1,24 @@
 import "./index.css";
 import RecipeForm from "./components/RecipeForm";
 import { useEffect } from 'react'
-import Card from "./components/Card";
+import RecipeCard from "./components/RecipeCard";
+import RecipeList from "./components/RecipeList";
 
 
 function App() {
 
   useEffect(() => {
     fetch('/api')
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        // alert(`Hello ${result[0].name}!`)
+
+      })
+  }, [])
+
+  useEffect(() => {
+    fetch('/api/recipes')
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
@@ -30,7 +41,8 @@ function App() {
       </div>
       {/* onSubmit={handleSubmit} */}
       <RecipeForm />
-      <Card/>
+      <RecipeCard/>
+      <RecipeList/>
     </>
   );
 }
