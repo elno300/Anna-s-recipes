@@ -1,9 +1,7 @@
-// import recipeRoutes from './recipeRoutes.js';
-// const recipes = require('./routes/recipe')
-
 const dotenv = require("dotenv"),
   { Client } = require("pg"),
   express = require("express");
+
 path = require("path");
 
 const app = express();
@@ -32,19 +30,17 @@ app.get("/api/courses", async (_request, response) => {
 });
 
 app.post("/add-course", async (req, res) => {
-  const { name } = req.body; // Anta att vi får namnet på kursen i body
+  const { name } = req.body;
 
   try {
-    // Lägg till kursen i databasen
     const result = await client.query(
       "INSERT INTO courses (name) VALUES ($1) RETURNING *",
       [name]
     );
 
-    // Skicka tillbaka den nyss skapade kursen
     res.status(201).send({
       message: "New course added successfully",
-      course: result.rows[0], // Den nyss skapade kursen
+      course: result.rows[0],
     });
   } catch (error) {
     console.error("Error adding course:", error);
@@ -55,12 +51,13 @@ app.post("/add-course", async (req, res) => {
   }
 });
 
-// Enkel DELETE-endpoint för att ta bort en kurs
+
+// DELETE-endpoint för att ta bort en course"kategori"
 app.delete("/api/courses/:id", (req, res) => {
   const courseId = req.params.id;
 
   client.query("DELETE FROM courses WHERE id = $1", [courseId], (err) => {
-    res.status(err ? 500 : 204).send(); // Skicka 500 vid fel, annars 204
+    res.status(err ? 500 : 204).send(); 
   });
 });
 

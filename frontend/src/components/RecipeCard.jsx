@@ -22,19 +22,19 @@ const imageMap = {
 
 const ImageContainer = styled.div`
   position: relative;
-  width: 100%; // Set width to 100% or any desired size
-  height: 0; // Set height to 0 for aspect ratio
-  padding-top: 100%; // Use padding-top to maintain 1:1 aspect ratio
-  overflow: hidden; // Hide any overflow
+  width: 100%;
+  height: 0;
+  padding-top: 100%;
+  overflow: hidden;
 `;
 
 const RecipeImage = styled.img`
-  position: absolute; // Position the image absolutely within the container
-  top: 0; // Align image to the top
-  left: 0; // Align image to the left
-  width: 100%; // Set width to 100%
-  height: 100%; // Set height to 100%
-  object-fit: cover; // Cover the container without stretching
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 function RecipeCard({ recipe }) {
