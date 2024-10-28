@@ -1,4 +1,5 @@
 // import recipeRoutes from './recipeRoutes.js';
+const recipes = require('./routes/recipe')
 
 const dotenv = require('dotenv'),
   { Client } = require('pg'),
@@ -15,17 +16,6 @@ dotenv.config()
 
   client.connect()
 
-// app.get('/api', (_request, response) => {
-//   response.send({ hello: 'World' })
-// })
-
-// client.query används för att interagera med databasen:
-// app.get('/api', async (_request, response) => {
-//   const { rows } = await client.query(
-//     'SELECT * FROM cities WHERE name = $1',
-//     ['Stockholm']
-//   )
-
 app.get('/api', async (_request, response) => {
   const { rows } = await client.query(
     'SELECT * FROM recipes'
@@ -34,8 +24,21 @@ app.get('/api', async (_request, response) => {
   response.send(rows)
 })
 
+// GET-request till /api/recipes
+app.get("/api/recipes", async (req, res) => {
+  try {
+    const recipes = await client.query("SELECT * FROM recipes"); // Databasanrop
+    // res.json(recipes.rows);
+    response.send(recipes)
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+
+});
+
 app.use(express.static(path.join(path.resolve(), 'dist')))
-// app.use(recipeRoutes);
+app.use(recipes);
 
 
 const port = process.env.PORT || 3000;

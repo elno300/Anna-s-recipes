@@ -32,11 +32,11 @@ const RecipeImage = styled.img`
 function RecipeCard() {
   console.log(image1);
   useEffect(() => {
-    fetch('/api/recipes')
+    fetch('/api')
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
-        // alert(`Hello ${result[0].name}!`)
+        console.log(result , 'fetch från recept kortet')
+        alert(`Hello ${result[0].name}!`)
 
       })
   }, [])

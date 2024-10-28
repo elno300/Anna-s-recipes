@@ -17,15 +17,15 @@ function App() {
       })
   }, [])
 
-  useEffect(() => {
-    fetch('/api/recipes')
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result)
-        // alert(`Hello ${result[0].name}!`)
+  // useEffect(() => {
+  //   fetch('/api/recipes')
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       console.log(result)
+  //       // alert(`Hello ${result[0].name}!`)
 
-      })
-  }, [])
+  //     })
+  // }, [])
 
 
   return (
